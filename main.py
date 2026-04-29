@@ -1,3 +1,8 @@
+# Archivo: main.py
+# Autor: Juan Pablo Arenas
+# Función: Ejecución principal del sistema
+# Proyecto: Software FJ
+
 """
 Software FJ - Archivo principal
 
