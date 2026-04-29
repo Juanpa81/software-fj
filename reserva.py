@@ -1,6 +1,6 @@
-# Archivo: servicios.py
+# Archivo: reserva.py
 # Autor: Nicolas Chalarca
-# Función: Gestión de servicios especializados
+# Función: Administración de reservas
 # Proyecto: Software FJ
 
 """
