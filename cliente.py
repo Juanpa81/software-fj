@@ -1,3 +1,8 @@
+# Archivo: cliente.py
+# Autor: Juan Pablo Arenas
+# Función: Gestión y validación de clientes
+# Proyecto: Software FJ
+
 """
 Software FJ - Módulo Cliente
 """
