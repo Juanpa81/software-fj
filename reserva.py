@@ -1,3 +1,8 @@
+# Archivo: servicios.py
+# Autor: Nicolas Chalarca
+# Función: Gestión de servicios especializados
+# Proyecto: Software FJ
+
 """
 Software FJ - Módulo de Reserva
 Clase Reserva: integra Cliente, Servicio, duración y estado.
