@@ -1,6 +1,8 @@
-
+# Archivo: logger.py
+# Autor: Juan Pablo Arenas
+# Función: Registro de eventos y errores
+# Proyecto: Software FJ
 # Logger del Sistema
-
 
 import logging
 
