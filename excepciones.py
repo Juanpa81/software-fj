@@ -1,4 +1,7 @@
-
+# Archivo: excepciones.py
+# Autor: Juan Pablo Arenas
+# Función: Excepciones personalizadas
+# Proyecto: Software FJ
 # Excepciones Personalizadas
 
 class SistemaError(Exception):
