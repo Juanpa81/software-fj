@@ -1,0 +1,20 @@
+# Software FJ
+
+Sistema integral de gestión de clientes, servicios y reservas desarrollado en Python.
+
+## Integrantes
+- Juan Pablo Arenas
+- Nicolas Chalarca Gonzalez
+
+## Archivos
+- cliente.py
+- entidad_base.py
+- excepciones.py
+- logger.py
+- main.py
+- reserva.py
+- servicios.py
+- sistema.py
+
+## Ejecución
+python main.py
