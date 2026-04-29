@@ -1,3 +1,8 @@
+# Archivo: sistema.py
+# Autor: Nicolas Chalarca
+# Función: Control general del sistema
+# Proyecto: Software FJ
+
 """
 Software FJ - Sistema de Gestión
 Fachada principal que coordina clientes, servicios y reservas.
