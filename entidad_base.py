@@ -1,3 +1,8 @@
+# Archivo: entidad_base.py
+# Autor: Juan Pablo Arenas
+# Función: Clase abstracta base del sistema
+# Proyecto: Software FJ
+
 from abc import ABC
 
 class EntidadBase(ABC):
