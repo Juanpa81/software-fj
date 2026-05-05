@@ -2,6 +2,7 @@
 # Autor: Nicolas Chalarca
 # Función: Control general del sistema
 # Proyecto: Software FJ
+# Modificado por: Linda Vanessa Castro
 
 """
 Software FJ - Sistema de Gestión
@@ -77,9 +78,27 @@ class SistemaGestion:
     # ── GESTIÓN DE RESERVAS ────────────────────────────────────────
     def crear_reserva(self, cliente: Cliente, servicio: Servicio,
                       duracion_horas: float, **kwargs_costo) -> Reserva:
-        reserva = Reserva(cliente, servicio, duracion_horas, **kwargs_costo)
-        self.__reservas[reserva.id_reserva] = reserva
-        return reserva
+        if not isinstance(cliente, Cliente):
+            raise ClienteNoEncontradoError(str(cliente))
+        if cliente.id_entidad not in self.__clientes:
+            raise ClienteNoEncontradoError(cliente.id_entidad)
+        if not isinstance(servicio, Servicio):
+            raise ServicioError("El servicio no es válido.")
+        if servicio.id_entidad not in self.__servicios:
+            raise ServicioError(f"Servicio '{servicio.id_entidad}' no registrado.")
+
+        try:
+            reserva = Reserva(cliente, servicio, duracion_horas, **kwargs_costo)
+            self.__reservas[reserva.id_reserva] = reserva
+            logger.info(
+                f"Reserva creada: {reserva.id_reserva} | Cliente: {cliente.id_entidad} | Servicio: {servicio.id_entidad}"
+            )
+            return reserva
+        except Exception as e:
+            logger.error(
+                f"Fallo al crear reserva para cliente {cliente.id_entidad}: {e}"
+            )
+            raise
 
     def obtener_reserva(self, id_reserva: str) -> Reserva:
         reserva = self.__reservas.get(id_reserva)

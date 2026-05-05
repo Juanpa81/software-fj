@@ -2,7 +2,7 @@
 # Autor: Nicolas Chalarca
 # Función: Gestión de servicios especializados
 # Proyecto: Software FJ
-
+# Modificado por: Linda Vanessa Castro
 
 """
 Software FJ - Módulo de Servicios
@@ -98,14 +98,17 @@ class Servicio(EntidadBase):
     def validar(self) -> bool:
         return self.__precio_base > 0 and bool(self.__nombre)
 
-    def to_dict(self) -> dict:
-        info = self.obtener_info_base()
-        info.update({
+    def obtener_info_base(self) -> dict:
+        """Retorna información base común para el servicio."""
+        return {
+            "id_servicio": self.id_entidad,
             "nombre": self.__nombre,
             "precio_base": self.__precio_base,
             "disponible": self.__disponible,
-        })
-        return info
+        }
+
+    def to_dict(self) -> dict:
+        return self.obtener_info_base()
 
     def __str__(self) -> str:
         return self.describir()
