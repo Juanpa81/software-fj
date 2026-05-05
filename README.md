@@ -5,6 +5,7 @@ Sistema integral de gestión de clientes, servicios y reservas desarrollado en P
 ## Integrantes
 - Juan Pablo Arenas
 - Nicolas Chalarca Gonzalez
+- Linda Vanessa Castro Riaño 
 
 ## Archivos
 - cliente.py
