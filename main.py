@@ -2,174 +2,89 @@
 # Autor: Juan Pablo Arenas
 # Función: Ejecución principal del sistema
 # Proyecto: Software FJ
-# Modificado por: Linda Vanessa Castro
-
-"""
-Software FJ - Archivo principal
-
-Este archivo ejecuta todo el sistema y simula:
-- Registro de clientes
-- Registro de servicios
-- Creación de reservas
-- Manejo de errores
-- Reporte final
-
-Autor: Grupo de trabajo
-"""
-
-
-# Importaciones
-
-from sistema import SistemaGestion
 from cliente import Cliente
 from servicios import ReservaSala, AlquilerEquipo, AsesoriaEspecializada
+from reserva import Reserva
+from sistema import Sistema
+from excepciones import *
 
+def mostrar_menu():
+    print("\n=== SOFTWARE FJ ===")
+    print("1. Registrar cliente")
+    print("2. Registrar servicio")
+    print("3. Crear reserva")
+    print("4. Ver reporte")
+    print("5. Salir")
 
 def main():
-    print("=== Iniciando Sistema Software FJ ===\n")
-    sistema = SistemaGestion()
+    sistema = Sistema()
 
-    print("1. Creación de clientes válidos...")
-    cliente1 = Cliente("C1", "Juan", "3000000000", "juan@gmail.com")
-    cliente2 = Cliente("C2", "Ana", "3111111111", "ana@gmail.com")
-    sistema.registrar_cliente(cliente1)
-    sistema.registrar_cliente(cliente2)
-    print(f"Clientes registrados: {[c.nombre for c in sistema.listar_clientes()]}")
+    while True:
+        mostrar_menu()
+        opcion = input("Seleccione una opción: ")
 
-    print("\n2. Intento de cliente inválido...")
-    try:
-        cliente_error = Cliente("", "X", "123", "malcorreo")
-        sistema.registrar_cliente(cliente_error)
-    except Exception as e:
-        print("Error controlado:", e)
-    else:
-        print("Error: el cliente inválido no debería haberse creado.")
-    finally:
-        print("Continuando después del intento de cliente inválido.")
+        try:
+            if opcion == "1":
+                id_cliente = input("ID: ")
+                nombre = input("Nombre: ")
+                telefono = input("Teléfono: ")
+                email = input("Email: ")
 
-    print("\n3. Creación de servicios válidos...")
-    s1 = ReservaSala("S1", "Sala Principal", 50000, 10, True)
-    s2 = AlquilerEquipo("E1", "Laptop", 40000, "Computadora", 5)
-    s3 = AsesoriaEspecializada("A1", "Consultoría IT", 80000, "IT")
-    sistema.registrar_servicio(s1)
-    sistema.registrar_servicio(s2)
-    sistema.registrar_servicio(s3)
-    print(f"Servicios registrados: {[s.nombre for s in sistema.listar_servicios()]}")
+                cliente = Cliente(id_cliente, nombre, telefono, email)
+                sistema.registrar_cliente(cliente)
+                print("Cliente registrado.")
 
-    print("\n4. Intento de servicio inválido...")
-    try:
-        servicio_error = ReservaSala("S2", "Sa", -100, 100)
-        sistema.registrar_servicio(servicio_error)
-    except Exception as e:
-        print("Error controlado:", e)
-    else:
-        print("Error: el servicio inválido no debería haberse creado.")
-    finally:
-        print("Continuando después del intento de servicio inválido.")
+            elif opcion == "2":
+                print("Tipos:")
+                print("1. Sala")
+                print("2. Equipo")
+                print("3. Asesoría")
 
-    print("\n5. Reservas válidas con confirmación y procesamiento...")
-    r1 = sistema.crear_reserva(cliente1, s1, 2, personas=5)
-    try:
-        r1.confirmar()
-        r1.procesar()
-    except Exception as e:
-        print("Error inesperado en r1:", e)
-    else:
-        print(f"Reserva {r1.id_reserva} procesada correctamente.")
-    finally:
-        print("Fin del flujo de r1.")
+                tipo = input("Seleccione: ")
+                id_serv = input("ID servicio: ")
+                nombre = input("Nombre: ")
 
-    r2 = sistema.crear_reserva(cliente2, s2, 3, cantidad=2)
-    try:
-        r2.confirmar()
-    except Exception as e:
-        print("Error inesperado en r2:", e)
-    else:
-        print(f"Reserva {r2.id_reserva} confirmada correctamente.")
-    finally:
-        print("Fin del flujo de confirmación de r2.")
+                if tipo == "1":
+                    capacidad = int(input("Capacidad: "))
+                    servicio = ReservaSala(id_serv, nombre, capacidad)
 
-    r3 = sistema.crear_reserva(cliente1, s3, 2, es_urgente=True)
-    try:
-        r3.confirmar()
-    except Exception as e:
-        print("Error inesperado en r3:", e)
-    else:
-        print(f"Reserva {r3.id_reserva} confirmada correctamente.")
-    finally:
-        print("Fin del flujo de confirmación de r3.")
+                elif tipo == "2":
+                    unidades = int(input("Unidades: "))
+                    servicio = AlquilerEquipo(id_serv, nombre, unidades)
 
-    print("\n6. Intento de reserva con capacidad excedida...")
-    try:
-        r4 = sistema.crear_reserva(cliente1, s1, 2, personas=50)
-        r4.confirmar()
-    except Exception as e:
-        print("Error controlado:", e)
-    finally:
-        print("Continuando después del intento con capacidad excedida.")
+                elif tipo == "3":
+                    nivel = input("Nivel (junior/senior): ")
+                    servicio = AsesoriaEspecializada(id_serv, nombre, nivel)
 
-    print("\n7. Intento de reserva con servicio no disponible...")
-    s1.disponible = False
-    try:
-        r5 = sistema.crear_reserva(cliente1, s1, 1, personas=2)
-        r5.confirmar()
-    except Exception as e:
-        print("Error controlado:", e)
-    finally:
-        s1.disponible = True
-        print("Servicio S1 restaurado a disponible.")
+                sistema.registrar_servicio(servicio)
+                print("Servicio registrado.")
 
-    print("\n8. Intento de procesar sin confirmar...")
-    try:
-        r6 = sistema.crear_reserva(cliente2, s2, 1, cantidad=1)
-        r6.procesar()
-    except Exception as e:
-        print("Error controlado:", e)
-    finally:
-        print("Fin del intento de procesar reserva sin confirmar.")
+            elif opcion == "3":
+                cliente_id = input("ID cliente: ")
+                servicio_id = input("ID servicio: ")
+                duracion = float(input("Duración horas: "))
 
-    print("\n9. Cancelación y reintento de cancelación...")
-    try:
-        r2.cancelar("Cliente no asistió")
-    except Exception as e:
-        print("Error inesperado al cancelar r2:", e)
-    else:
-        print(f"Reserva {r2.id_reserva} cancelada correctamente.")
-    finally:
-        print("Fin del primer intento de cancelación.")
+                cliente = sistema._Sistema__clientes[cliente_id]
+                servicio = sistema._Sistema__servicios[servicio_id]
 
-    try:
-        r2.cancelar()
-    except Exception as e:
-        print("Error controlado:", e)
-    finally:
-        print("Fin del reintento de cancelación.")
+                reserva = Reserva(cliente, servicio, duracion)
+                reserva.confirmar()
+                sistema.registrar_reserva(reserva)
 
-    print("\n10. Operaciones adicionales de reserva válidas...")
-    r7 = sistema.crear_reserva(cliente1, s2, 1, cantidad=1)
-    try:
-        r7.confirmar()
-    except Exception as e:
-        print("Error inesperado en r7:", e)
-    else:
-        print(f"Reserva {r7.id_reserva} confirmada correctamente.")
-    finally:
-        print("Fin del flujo de r7.")
+                print("Reserva creada.")
 
-    r8 = sistema.crear_reserva(cliente2, s3, 2)
-    try:
-        r8.confirmar()
-        r8.procesar()
-    except Exception as e:
-        print("Error inesperado en r8:", e)
-    else:
-        print(f"Reserva {r8.id_reserva} procesada correctamente.")
-    finally:
-        print("Fin del flujo de r8.")
+            elif opcion == "4":
+                sistema.generar_reporte()
 
-    print("\n11. REPORTE FINAL:")
-    print(sistema.reporte_resumen())
+            elif opcion == "5":
+                print("Saliendo...")
+                break
 
+            else:
+                print("Opción inválida")
+
+        except Exception as e:
+            print(f"Error controlado: {e}")
 
 if __name__ == "__main__":
     main()
