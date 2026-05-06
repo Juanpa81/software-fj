@@ -2,11 +2,11 @@
 # Autor: Juan Pablo Arenas
 # Función: Ejecución principal del sistema
 # Proyecto: Software FJ
+
 from cliente import Cliente
 from servicios import ReservaSala, AlquilerEquipo, AsesoriaEspecializada
-from reserva import Reserva
-from sistema import Sistema
-from excepciones import *
+from sistema import SistemaGestion
+
 
 def mostrar_menu():
     print("\n=== SOFTWARE FJ ===")
@@ -16,8 +16,9 @@ def mostrar_menu():
     print("4. Ver reporte")
     print("5. Salir")
 
+
 def main():
-    sistema = Sistema()
+    sistema = SistemaGestion()
 
     while True:
         mostrar_menu()
@@ -35,7 +36,7 @@ def main():
                 print("Cliente registrado.")
 
             elif opcion == "2":
-                print("Tipos:")
+                print("\nTipos:")
                 print("1. Sala")
                 print("2. Equipo")
                 print("3. Asesoría")
@@ -45,16 +46,38 @@ def main():
                 nombre = input("Nombre: ")
 
                 if tipo == "1":
+                    precio = float(input("Precio base: "))
                     capacidad = int(input("Capacidad: "))
-                    servicio = ReservaSala(id_serv, nombre, capacidad)
+                    servicio = ReservaSala(id_serv, nombre, precio, capacidad)
 
                 elif tipo == "2":
-                    unidades = int(input("Unidades: "))
-                    servicio = AlquilerEquipo(id_serv, nombre, unidades)
+                    precio = float(input("Precio base: "))
+                    tipo_equipo = input("Tipo de equipo: ")
+                    cantidad = int(input("Cantidad disponible: "))
+                    servicio = AlquilerEquipo(
+                        id_serv,
+                        nombre,
+                        precio,
+                        tipo_equipo,
+                        cantidad
+                    )
 
                 elif tipo == "3":
-                    nivel = input("Nivel (junior/senior): ")
-                    servicio = AsesoriaEspecializada(id_serv, nombre, nivel)
+                    precio = float(input("Precio base: "))
+                    area = input("Área: ")
+                    nivel = input("Nivel (junior/senior/experto): ")
+
+                    servicio = AsesoriaEspecializada(
+                        id_serv,
+                        nombre,
+                        precio,
+                        area,
+                        nivel
+                    )
+
+                else:
+                    print("Tipo inválido")
+                    continue
 
                 sistema.registrar_servicio(servicio)
                 print("Servicio registrado.")
@@ -64,17 +87,21 @@ def main():
                 servicio_id = input("ID servicio: ")
                 duracion = float(input("Duración horas: "))
 
-                cliente = sistema._Sistema__clientes[cliente_id]
-                servicio = sistema._Sistema__servicios[servicio_id]
+                cliente = sistema.obtener_cliente(cliente_id)
+                servicio = sistema.obtener_servicio(servicio_id)
 
-                reserva = Reserva(cliente, servicio, duracion)
+                reserva = sistema.crear_reserva(
+                    cliente,
+                    servicio,
+                    duracion
+                )
+
                 reserva.confirmar()
-                sistema.registrar_reserva(reserva)
-
-                print("Reserva creada.")
+                reserva.procesar()
+                print("Reserva creada, confirmada y procesada.")
 
             elif opcion == "4":
-                sistema.generar_reporte()
+                print(sistema.reporte_resumen())
 
             elif opcion == "5":
                 print("Saliendo...")
@@ -85,6 +112,7 @@ def main():
 
         except Exception as e:
             print(f"Error controlado: {e}")
+
 
 if __name__ == "__main__":
     main()
