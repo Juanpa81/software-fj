@@ -1,6 +1,6 @@
 # Software FJ
 
-Sistema integral de gestión de clientes, servicios y reservas desarrollado en Python.
+Sistema integral de gestión de clientes, servicios y reservas desarrollado en Python
 
 ## Integrantes
 - Juan Pablo Arenas
