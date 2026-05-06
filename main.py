@@ -1,7 +1,7 @@
 # Archivo: main.py
 # Autor: Juan Pablo Arenas
 # Función: Ejecución principal del sistema
-# Proyecto: Software FJ
+# Proyecto: Software FJ.
 
 from cliente import Cliente
 from servicios import ReservaSala, AlquilerEquipo, AsesoriaEspecializada
