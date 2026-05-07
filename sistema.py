@@ -4,6 +4,7 @@
 # Proyecto: Software FJ
 # Modificado por: Linda Vanessa Castro
 
+
 """
 Software FJ - Sistema de Gestión
 Fachada principal que coordina clientes, servicios y reservas.
